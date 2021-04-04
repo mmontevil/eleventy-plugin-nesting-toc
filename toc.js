@@ -40,7 +40,7 @@ class Item {
         let markup = '';
         if (this.slug && this.text) {
             markup += `
-                    <li><a href="#${this.slug}">${this.text}</a>
+                    <li class="tocLevel${this.level}"><a href="#${this.slug}">${this.text}</a>
             `;
         }
         if (this.children.length > 0) {
