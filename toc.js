@@ -28,7 +28,8 @@ class Item {
     constructor($el,firstlevel) {
         if ($el) {
             this.slug = $el.attr('id');
-            this.text = $el.text();
+           
+            this.text = $el.html().replaceAll(/id\s*=\s*"[^"]*"/g, '');
             this.level = +$el.get(0).tagName.slice(1);
             this.firstlevel=firstlevel;
         } else {
