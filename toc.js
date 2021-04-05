@@ -25,11 +25,12 @@ function getParent(prev, current) {
 }
 
 class Item {
-    constructor($el) {
+    constructor($el,firstlevel) {
         if ($el) {
             this.slug = $el.attr('id');
             this.text = $el.text();
             this.level = +$el.get(0).tagName.slice(1);
+            this.firstlevel=firstlevel;
         } else {
             this.level = 0;
         }
@@ -40,7 +41,7 @@ class Item {
         let markup = '';
         if (this.slug && this.text) {
             markup += `
-                    <li class="tocLevel${this.level-tags[0].slice(1)}"><a href="#${this.slug}">${this.text}</a>
+                    <li class="tocLevel${this.level-this.firstlevel+1}"><a href="#${this.slug}">${this.text}</a>
             `;
         }
         if (this.children.length > 0) {
@@ -63,9 +64,16 @@ class Toc {
     constructor(htmlstring = '', options = defaults) {
         this.options = {...defaults, ...options};
         const selector = this.options.tags.join(',');
+        let firstlevel=6;
+        const  tags=this.options.tags;
+        for (var tag0 in tags){        
+            if(tags[tag0].slice(1)< firstlevel) 
+                firstlevel=tags[tag0].slice(1);
+        }
+        
         this.root = new Item();
         this.root.parent = this.root;
-
+        
         const $ = cheerio.load(htmlstring);
 
         const headings = $(selector)
@@ -75,7 +83,7 @@ class Toc {
         if (headings.length) {
             let previous = this.root;
             headings.each((index, heading) => {
-                const current = new Item($(heading));
+                const current = new Item($(heading),firstlevel);
                 const parent = getParent(previous, current);
                 current.parent = parent;
                 parent.children.push(current);
