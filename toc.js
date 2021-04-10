@@ -29,7 +29,7 @@ class Item {
         if ($el) {
             this.slug = $el.attr('id');
            
-            this.text = $el.html().replaceAll(/id\s*=\s*"[^"]*"/g, '');
+            this.text = $el.html().replaceAll(/id\s*=\s*"[^"]*"/g, '').replaceAll(/deeplink/g, 'deeplink hidden');
             this.level = +$el.get(0).tagName.slice(1);
             this.firstlevel=firstlevel;
         } else {
