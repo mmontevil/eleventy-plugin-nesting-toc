@@ -1,5 +1,7 @@
 # Table of Contents (nesting) Eleventy Plugin
 
+[![npm](https://img.shields.io/npm/v/eleventy-plugin-nesting-toc?style=for-the-badge)](https://www.npmjs.com/package/eleventy-plugin-nesting-toc)
+
 This Eleventy plugin will generate a (property nested) TOC from page content using an Eleventy filter.
 
 HTML:
@@ -51,6 +53,7 @@ Generated TOC:
 ```javascript
 const defaults = {
   tags: ['h2', 'h3', 'h4'], // Which heading tags are selected (headings must each have an ID attribute)
+  ignoredElements: [],  // Elements to ignore when constructing the label for every header (useful for ignoring permalinks, must be selectors)
   wrapper: 'nav',       // Element to put around the root `ol`
   wrapperClass: 'toc',  // Class for the element around the root `ol`
   headingText: '',      // Optional text to show in heading above the wrapper element

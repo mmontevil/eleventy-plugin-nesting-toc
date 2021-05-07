@@ -5,6 +5,7 @@ const ignoreAttribute = 'data-toc-exclude';
 
 const defaults = {
     tags: ['h2', 'h3', 'h4'],
+    ignoredElements: [],
     wrapper: 'nav',
     wrapperClass: 'toc',
     headingText: '',
@@ -30,6 +31,7 @@ class Item {
             this.slug = $el.attr('id');
            
             this.text = $el.html().replaceAll(/id\s*=\s*"[^"]*"/g, '').replaceAll(/deeplink/g, 'deeplink hidden');
+
             this.level = +$el.get(0).tagName.slice(1);
             this.firstlevel=firstlevel;
         } else {
@@ -80,6 +82,9 @@ class Toc {
         const headings = $(selector)
             .filter('[id]')
             .filter(`:not([${ignoreAttribute}])`);
+
+        const ignoredElementsSelector = this.options.ignoredElements.join(',')
+        headings.find(ignoredElementsSelector).remove()
 
         if (headings.length) {
             let previous = this.root;
